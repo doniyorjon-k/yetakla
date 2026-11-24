@@ -11,6 +11,11 @@ const head=`<title>Yetakla — data analitika</title>
 ${css}
 </style>`;
 const body=`<div id="app"></div>\n${js}`;
+// Sayt versiyasi: Firebase konfiguratsiyasi va bulut moduli app.js dan oldin
+const cfg=fs.existsSync('firebase-config.js')?fs.readFileSync('firebase-config.js','utf8'):'';
+const appTag='<script>\n'+fs.readFileSync('app.js','utf8');
+const siteJs=cfg?js.replace(appTag,()=>`<script>\n${cfg}\n</script>\n<script>\n${fs.readFileSync('cloud.js','utf8')}\n</script>\n`+appTag):js;
+const siteBody=`<div id="app"></div>\n${siteJs}`;
 fs.writeFileSync('datayol.html', head+'\n'+body+'\n');
-fs.writeFileSync('datayol-standalone.html', `<!doctype html>\n<html lang="uz">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${head}\n</head>\n<body>\n${body}\n</body>\n</html>\n`);
+fs.writeFileSync('datayol-standalone.html', `<!doctype html>\n<html lang="uz">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${head}\n</head>\n<body>\n${siteBody}\n</body>\n</html>\n`);
 console.log(fs.statSync('datayol.html').size);

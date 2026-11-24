@@ -99,7 +99,7 @@
   const fresh = () => ({ v: 1, xp: 0, todayXp: 0, today: dayStr(), goal: null, streak: 0, bestStreak: 0, lastDay: null, hearts: 5, done: {}, lessonsDone: 0, pool: {}, badges: {}, sound: true, formulasOk: 0, reviewsOk: 0, onboarded: false });
   let S;
   function load() { try { const raw = localStorage.getItem(KEY); S = raw ? Object.assign(fresh(), JSON.parse(raw)) : fresh(); } catch (e) { S = fresh(); } rollDay(); }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* xotira yo'q — sessiyada saqlanadi */ } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* xotira yo'q — sessiyada saqlanadi */ } if (window.DY_CLOUD) try { window.DY_CLOUD.onSave(S); } catch (e) { /* bulut ixtiyoriy */ } }
   function rollDay() {
     const t = dayStr();
     if (S.today !== t) { S.today = t; S.todayXp = 0; S.hearts = 5; }
@@ -431,10 +431,11 @@
     const g = (v, n, d) => `<button class="opt ${S.goal === v ? "sel" : ""}" data-goal="${v}"><span>${n}</span><small>${v} XP / kun · ${d}</small></button>`;
     return `<div class="page wrap"><h2>Profil</h2>
       <div class="stats"><div class="card"><b>${S.xp}</b><span>Jami XP</span></div><div class="card"><b>${S.lessonsDone}</b><span>Tugatilgan darslar</span></div><div class="card"><b>${S.streak} 🔥</b><span>Joriy olov</span></div><div class="card"><b>${S.bestStreak}</b><span>Eng uzun olov</span></div></div>
+      ${window.DY_CLOUD ? window.DY_CLOUD.card() : ""}
       <h3>Kunlik maqsad</h3><div class="goals" style="max-width:none">${g(20, "Yengil", "≈ 2 dars")}${g(50, "Jiddiy", "≈ 4 dars")}${g(100, "Kuchli", "≈ 8 dars")}</div>
       <div class="card toggle"><span>Ovoz effektlari</span><button class="switch ${S.sound ? "on" : ""}" data-act="sound" aria-label="Ovoz"></button></div>
       <div class="card"><h3>Kurs haqida</h3><p class="muted" style="margin-top:6px">11 bo'lim: analitik fikrlash → Excel → statistika → SQL → tozalash → Power BI → Tableau va Superset → Python → AI → karyera. Hozir ochiq bo'limlar: ${COURSE.filter(s => !s.soon).length} ta. Barcha misollar to'qima ma'lumotlar.</p></div>
-      <div class="card"><p class="muted">Progress shu brauzerda saqlanadi. Har kuni jonlar 5 taga to'ladi.</p><div class="row" style="margin-top:10px">${modal === "reset" ? `<button class="btn red sm" data-act="reset-yes">Ha, hammasini o'chir</button><button class="btn ghost sm" data-act="reset-no">Bekor</button>` : `<button class="btn ghost sm" data-act="reset">Progressni tozalash</button>`}</div></div>
+      <div class="card"><p class="muted">${window.DY_CLOUD && window.DY_CLOUD.user() ? "Progress hisobingizda va shu brauzerda saqlanadi." : "Progress shu brauzerda saqlanadi."} Har kuni jonlar 5 taga to'ladi.</p><div class="row" style="margin-top:10px">${modal === "reset" ? `<button class="btn red sm" data-act="reset-yes">Ha, hammasini o'chir</button><button class="btn ghost sm" data-act="reset-no">Bekor</button>` : `<button class="btn ghost sm" data-act="reset">Progressni tozalash</button>`}</div></div>
     </div>`;
   }
   function renderHome() {
@@ -448,7 +449,7 @@
       ${step === 2 ? `<h1 class="g">Kunlik maqsad</h1><p>Har kuni qancha o'qiysiz? Keyin Profil bo'limida o'zgartirish mumkin.</p>
         <div class="goals">${[[20, "Yengil", "≈ 10 daqiqa"], [50, "Jiddiy", "≈ 20 daqiqa"], [100, "Kuchli", "≈ 40 daqiqa"]].map(g => `<button class="opt ${sel === g[0] ? "sel" : ""}" data-ogoal="${g[0]}"><span>${g[1]}</span><small>${g[0]} XP · ${g[2]}</small></button>`).join("")}</div>`
       : `<h1 class="g">Salom! Men Hudhudman.</h1><p>Men seni yo'l bo'ylab yetaklayman. Yetakla'da data analitikani noldan, o'zbek tilida o'rganamiz: Excel, SQL, Power BI, Python. Har kuni oz-ozdan.</p>`}
-      <div class="foot-center">${step === 2 ? `<button class="btn" data-act="onb-done" ${sel ? "" : "disabled"}>Boshlash</button>` : `<button class="btn" data-act="onb-next">Davom etish</button>`}</div>
+      <div class="foot-center">${step === 2 ? `<button class="btn" data-act="onb-done" ${sel ? "" : "disabled"}>Boshlash</button>` : `<button class="btn" data-act="onb-next">Davom etish</button>${window.DY_CLOUD ? `<button class="btn ghost sm" data-act="cloud-login" style="margin-top:14px;text-transform:none;letter-spacing:0">Hisobim bor — Google bilan kirish</button><small id="cloudst" class="muted" style="display:block;margin-top:6px"></small>` : ""}`}</div>
     </div></div>`;
   }
 
@@ -791,5 +792,8 @@
 
   load();
   if (!S.onboarded) renderOnboard(1); else renderHome();
-  window.DY_APP = { state: () => S, startLesson, cur: () => session && session.q[session.i], version: "1.0" };
+  window.DY_APP = { state: () => S, startLesson, cur: () => session && session.q[session.i], version: "1.1",
+    replaceState(ns) { S = Object.assign(fresh(), ns); rollDay(); save(); if (!session) renderHome(); },
+    refresh() { if (!session && S.onboarded) renderHome(); } };
+  if (window.DY_CLOUD) window.DY_CLOUD.start();
 })();

@@ -342,3 +342,10 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
 
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); } }
 :root[data-theme="dark"] svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); }
+.card.cloud h3 { margin: 0; }
+.btn.gbtn { --b: var(--surface); --bd: var(--line); color: var(--ink); border: 2px solid var(--line); width: 100%; text-transform: none; letter-spacing: 0; }
+.cl-row { display: flex; align-items: center; gap: 12px; }
+.cl-av { width: 42px; height: 42px; border-radius: 50%; background: #E8893C; color: #fff; display: grid; place-items: center; font-weight: 900; font-size: 18px; flex: none; }
+.cl-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.cl-info b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cl-info small { color: var(--muted); }
