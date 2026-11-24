@@ -60,7 +60,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Bottom nav */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 2px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
-.tabbar .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+.tabbar .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
 .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px 12px; font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: .03em; text-transform: uppercase; }
 .tab svg { width: 26px; height: 26px; }
 .tab.on { color: var(--green); }
@@ -349,3 +349,60 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
 .cl-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .cl-info b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cl-info small { color: var(--muted); }
+
+/* ---------- Asosiy sahifa ---------- */
+.home { gap: 14px; }
+.hello { display: flex; align-items: center; gap: 12px; }
+.hello svg.mascot { width: 78px; height: 88px; flex: none; }
+.hello .say { display: flex; flex-direction: column; align-items: flex-start; position: relative; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 10px 14px; flex: 1; min-width: 0; }
+.hello .say::before { content: ""; position: absolute; left: -9px; top: 50%; width: 14px; height: 14px; background: var(--surface); border-left: 2px solid var(--line); border-bottom: 2px solid var(--line); transform: translateY(-50%) rotate(45deg); }
+.hello .say b { display: block; font-family: var(--f-display); font-size: 20px; line-height: 1.2; }
+.hello .say span { font-size: 14px; color: var(--muted); }
+.cont { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; text-align: left; background: var(--c); color: #fff; border-radius: var(--r); padding: 16px 18px; box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 70%, #000); transition: transform .08s, box-shadow .08s; }
+.cont:active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.cont .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
+.cont b { font-family: var(--f-display); font-size: 22px; line-height: 1.2; }
+.cont .go { margin-top: 10px; background: #fff; color: var(--c); font-weight: 900; font-size: 14px; letter-spacing: .05em; text-transform: uppercase; padding: 9px 16px; border-radius: 12px; }
+.cont-done { display: flex; flex-direction: column; gap: 4px; }
+.cont-done b { font-family: var(--f-display); font-size: 20px; }
+.today { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.today .card { display: flex; flex-direction: column; gap: 2px; padding: 12px; text-align: left; color: var(--ink); }
+.today .card b { font-family: var(--f-display); font-size: 22px; line-height: 1.1; white-space: nowrap; }
+.today .card b small { font-size: 14px; color: var(--muted); }
+.today .card span { font-size: 12px; font-weight: 700; color: var(--muted); }
+i.bar { display: block; height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; margin-top: 6px; width: 100%; }
+i.bar > i { display: block; height: 100%; border-radius: 4px; background: var(--sun); }
+.course { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; color: var(--ink); }
+.course .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--green); color: #fff; flex: none; }
+.course .ic svg { width: 24px; height: 24px; }
+.course .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.course .txt b { font-family: var(--f-display); font-size: 19px; line-height: 1.2; }
+.course .txt small { font-size: 13px; color: var(--muted); font-weight: 700; }
+.course .txt i.bar > i { background: var(--green); }
+.course .chev { font-size: 28px; color: var(--muted); line-height: 1; }
+.course.soon { border-style: dashed; opacity: .75; }
+.course.soon .ic { background: var(--surface-2); color: var(--muted); }
+/* xarita sarlavhasi */
+.maphead { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.maphead .back { display: inline-flex; align-items: center; gap: 2px; padding: 6px 12px 6px 6px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--muted); font-weight: 800; font-size: 14px; }
+.maphead .back svg { width: 20px; height: 20px; }
+.maphead b { font-family: var(--f-display); font-size: 20px; }
+/* reyting */
+.rank-head { display: flex; flex-direction: column; gap: 2px; }
+.rank-head span { font-size: 14px; }
+.rank { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.rank li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.rank li:last-child { border-bottom: 0; }
+.rank li.me { background: var(--green-soft); }
+.rank .pos { width: 26px; text-align: center; font-weight: 900; color: var(--muted); font-variant-numeric: tabular-nums; flex: none; }
+.rank .pos.p1, .rank .pos.p2, .rank .pos.p3 { color: #fff; border-radius: 50%; height: 26px; line-height: 26px; font-size: 14px; }
+.rank .pos.p1 { background: #e0a800; } .rank .pos.p2 { background: #8d9aa5; } .rank .pos.p3 { background: #b8743d; }
+.rank .av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); font-weight: 900; color: var(--green); flex: none; }
+.rank b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 800; }
+.rank b small { color: var(--muted); font-weight: 700; }
+.rank .x { font-weight: 900; color: var(--sun); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.me-row { font-size: 15px; }
+.rank-in { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.rank-in svg.mascot { width: 90px; height: 100px; }
+.rank-in b { font-family: var(--f-display); font-size: 20px; }
+.rank-in p { margin: 0; }

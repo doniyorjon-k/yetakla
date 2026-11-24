@@ -71,7 +71,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
 /* Bottom nav */
 .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 2px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
-.tabbar .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+.tabbar .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
 .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 4px 12px; font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: .03em; text-transform: uppercase; }
 .tab svg { width: 26px; height: 26px; }
 .tab.on { color: var(--green); }
@@ -360,6 +360,63 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
 .cl-info { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .cl-info b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cl-info small { color: var(--muted); }
+
+/* ---------- Asosiy sahifa ---------- */
+.home { gap: 14px; }
+.hello { display: flex; align-items: center; gap: 12px; }
+.hello svg.mascot { width: 78px; height: 88px; flex: none; }
+.hello .say { display: flex; flex-direction: column; align-items: flex-start; position: relative; background: var(--surface); border: 2px solid var(--line); border-radius: 18px; padding: 10px 14px; flex: 1; min-width: 0; }
+.hello .say::before { content: ""; position: absolute; left: -9px; top: 50%; width: 14px; height: 14px; background: var(--surface); border-left: 2px solid var(--line); border-bottom: 2px solid var(--line); transform: translateY(-50%) rotate(45deg); }
+.hello .say b { display: block; font-family: var(--f-display); font-size: 20px; line-height: 1.2; }
+.hello .say span { font-size: 14px; color: var(--muted); }
+.cont { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; text-align: left; background: var(--c); color: #fff; border-radius: var(--r); padding: 16px 18px; box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 70%, #000); transition: transform .08s, box-shadow .08s; }
+.cont:active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.cont .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
+.cont b { font-family: var(--f-display); font-size: 22px; line-height: 1.2; }
+.cont .go { margin-top: 10px; background: #fff; color: var(--c); font-weight: 900; font-size: 14px; letter-spacing: .05em; text-transform: uppercase; padding: 9px 16px; border-radius: 12px; }
+.cont-done { display: flex; flex-direction: column; gap: 4px; }
+.cont-done b { font-family: var(--f-display); font-size: 20px; }
+.today { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.today .card { display: flex; flex-direction: column; gap: 2px; padding: 12px; text-align: left; color: var(--ink); }
+.today .card b { font-family: var(--f-display); font-size: 22px; line-height: 1.1; white-space: nowrap; }
+.today .card b small { font-size: 14px; color: var(--muted); }
+.today .card span { font-size: 12px; font-weight: 700; color: var(--muted); }
+i.bar { display: block; height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; margin-top: 6px; width: 100%; }
+i.bar > i { display: block; height: 100%; border-radius: 4px; background: var(--sun); }
+.course { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; color: var(--ink); }
+.course .ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--green); color: #fff; flex: none; }
+.course .ic svg { width: 24px; height: 24px; }
+.course .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.course .txt b { font-family: var(--f-display); font-size: 19px; line-height: 1.2; }
+.course .txt small { font-size: 13px; color: var(--muted); font-weight: 700; }
+.course .txt i.bar > i { background: var(--green); }
+.course .chev { font-size: 28px; color: var(--muted); line-height: 1; }
+.course.soon { border-style: dashed; opacity: .75; }
+.course.soon .ic { background: var(--surface-2); color: var(--muted); }
+/* xarita sarlavhasi */
+.maphead { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.maphead .back { display: inline-flex; align-items: center; gap: 2px; padding: 6px 12px 6px 6px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--muted); font-weight: 800; font-size: 14px; }
+.maphead .back svg { width: 20px; height: 20px; }
+.maphead b { font-family: var(--f-display); font-size: 20px; }
+/* reyting */
+.rank-head { display: flex; flex-direction: column; gap: 2px; }
+.rank-head span { font-size: 14px; }
+.rank { list-style: none; margin: 0; padding: 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.rank li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+.rank li:last-child { border-bottom: 0; }
+.rank li.me { background: var(--green-soft); }
+.rank .pos { width: 26px; text-align: center; font-weight: 900; color: var(--muted); font-variant-numeric: tabular-nums; flex: none; }
+.rank .pos.p1, .rank .pos.p2, .rank .pos.p3 { color: #fff; border-radius: 50%; height: 26px; line-height: 26px; font-size: 14px; }
+.rank .pos.p1 { background: #e0a800; } .rank .pos.p2 { background: #8d9aa5; } .rank .pos.p3 { background: #b8743d; }
+.rank .av { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); font-weight: 900; color: var(--green); flex: none; }
+.rank b { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 800; }
+.rank b small { color: var(--muted); font-weight: 700; }
+.rank .x { font-weight: 900; color: var(--sun); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.me-row { font-size: 15px; }
+.rank-in { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.rank-in svg.mascot { width: 90px; height: 100px; }
+.rank-in b { font-family: var(--f-display); font-size: 20px; }
+.rank-in p { margin: 0; }
 
 </style>
 </head>
@@ -1939,7 +1996,7 @@ window.YETAKLA_FIREBASE = {
   const FIREBASE_CONFIG = g.YETAKLA_FIREBASE || null;
   if (!FIREBASE_CONFIG) return;
   const V = "10.12.2", CDN = "https://www.gstatic.com/firebasejs/" + V + "/";
-  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null, isNew = false;
+  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null, isNew = false, bTimer = null, bLast = 0, bSent = "", bcache = null;
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const refresh = () => { if (g.DY_APP && g.DY_APP.refresh) g.DY_APP.refresh(); };
@@ -1959,6 +2016,8 @@ window.YETAKLA_FIREBASE = {
     if (a.today === b.today) r.todayXp = Math.max(a.todayXp || 0, b.todayXp || 0);
     if (!a.goal && b.goal) r.goal = b.goal;
     r.onboarded = !!(a.onboarded || b.onboarded);
+    const wa = a.week || "", wb = b.week || "";
+    if (wb > wa) { r.week = wb; r.weekXp = b.weekXp || 0; } else if (wa === wb) r.weekXp = Math.max(a.weekXp || 0, b.weekXp || 0);
     return r;
   }
 
@@ -1971,6 +2030,22 @@ window.YETAKLA_FIREBASE = {
     return fb;
   }
 
+  // Reyting uchun qisqa ism: "Doniyorjon Kuchkarov" -> "Doniyorjon K."
+  const shortName = n => { const p = String(n || "").trim().split(/\s+/).filter(Boolean); return !p.length ? "Nomsiz" : (p[0].slice(0, 24) + (p[1] ? " " + p[1][0].toUpperCase() + "." : "")); };
+  // Haftalik reyting yozuvi: XP o'zgarganda, ko'pi bilan daqiqada bir marta
+  async function pushBoard(force) {
+    clearTimeout(bTimer); bTimer = null;
+    const st = g.DY_APP && g.DY_APP.state(); if (!user || !fb || !st || !st.week || !(st.weekXp > 0)) return;
+    const key = st.week + ":" + st.weekXp; if (key === bSent) return;
+    const wait = 60000 - (Date.now() - bLast);
+    if (!force && wait > 0) { bTimer = setTimeout(() => pushBoard(true), wait); return; }
+    bLast = Date.now();
+    try {
+      await fb.fs.setDoc(fb.fs.doc(db, "boards", st.week, "users", user.uid), { name: shortName(user.displayName), wxp: Math.round(st.weekXp), at: fb.fs.serverTimestamp() });
+      bSent = key; bcache = null;
+    } catch (e) { bTimer = setTimeout(() => pushBoard(true), 30000); }
+  }
+
   async function push() {
     if (!user || !fb) return;
     const st = pending || (g.DY_APP && g.DY_APP.state()); pending = null; if (!st) return;
@@ -1979,7 +2054,7 @@ window.YETAKLA_FIREBASE = {
       const data = { s: JSON.stringify(st), xp: st.xp || 0, lessons: st.lessonsDone || 0, name: String(user.displayName || "").slice(0, 60), days: fb.fs.arrayUnion(st.today || ""), at: fb.fs.serverTimestamp() };
       if (isNew) data.created = fb.fs.serverTimestamp();
       await fb.fs.setDoc(fb.fs.doc(db, "users", user.uid), data, { merge: true });
-      isNew = false; setStatus("ok");
+      isNew = false; setStatus("ok"); pushBoard();
     } catch (e) { setStatus("error"); timer = setTimeout(push, 15000); }
   }
 
@@ -2000,6 +2075,25 @@ window.YETAKLA_FIREBASE = {
 
   g.DY_CLOUD = {
     user: () => user,
+    boardCache: () => bcache && user && bcache.uid === user.uid && Date.now() - bcache.t < 60000 ? bcache : null,
+    async board() {
+      if (!user || !fb) return null;
+      const st = g.DY_APP.state(), wk = st.week;
+      const c = this.boardCache(); if (c && c.week === wk) return c;
+      try {
+        if (bTimer || (st.weekXp > 0 && bSent !== wk + ":" + st.weekXp)) await pushBoard(true);
+        const col = fb.fs.collection(db, "boards", wk, "users");
+        const snap = await fb.fs.getDocs(fb.fs.query(col, fb.fs.orderBy("wxp", "desc"), fb.fs.limit(50)));
+        const rows = []; snap.forEach(d => rows.push(Object.assign({ id: d.id }, d.data())));
+        let me = null;
+        if (!rows.some(r => r.id === user.uid) && st.weekXp > 0) {
+          const cnt = await fb.fs.getCountFromServer(fb.fs.query(col, fb.fs.where("wxp", ">", Math.round(st.weekXp))));
+          me = { rank: cnt.data().count + 1, wxp: st.weekXp };
+        }
+        bcache = { t: Date.now(), week: wk, rows, me, uid: user.uid };
+        return bcache;
+      } catch (e) { return { error: true }; }
+    },
     onSave(st) {
       if (!user || !ready) return;
       pending = st; clearTimeout(timer); timer = setTimeout(push, 2500);
@@ -2037,7 +2131,7 @@ window.YETAKLA_FIREBASE = {
         }
       } catch (err) { setStatus("idle"); const el = document.getElementById("cloudst"); if (el) el.textContent = "Kirib bo'lmadi. Internetni tekshirib, qayta urinib ko'ring."; }
     }
-    if (b.dataset.act === "cloud-logout") { clearTimeout(timer); if (pending) await push(); try { await fb.au.signOut(auth); } catch (err) { /* */ } }
+    if (b.dataset.act === "cloud-logout") { clearTimeout(timer); if (pending) await push(); if (bTimer) await pushBoard(true); bcache = null; bSent = ""; try { await fb.au.signOut(auth); } catch (err) { /* */ } }
   });
 })(typeof window !== "undefined" ? window : globalThis);
 
@@ -2057,6 +2151,7 @@ window.YETAKLA_FIREBASE = {
   const pick = a => a[Math.floor(Math.random() * a.length)];
   const dayStr = d => { const x = d || new Date(); return x.getFullYear() + "-" + String(x.getMonth() + 1).padStart(2, "0") + "-" + String(x.getDate()).padStart(2, "0"); };
   const yesterday = () => { const d = new Date(); d.setDate(d.getDate() - 1); return dayStr(d); };
+  const weekKey = () => { const d = new Date(); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return dayStr(d); };
   const hlCode = (code) => String(code).split("\n").map(line => {
     const m = line.match(/^(.*?)((?:^|\s)(?:#|--|\/\/) .*)$/);
     return m ? hlLine(m[1]) + '<span class="cm">' + esc(m[2]) + "</span>" : hlLine(line);
@@ -2071,6 +2166,8 @@ window.YETAKLA_FIREBASE = {
 
   /* ---------- icons ---------- */
   const I = {
+    home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.2 12 3.8l9 7.4"/><path d="M5.5 9.6V20h13V9.6"/><path d="M10 20v-5.4h4V20"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
     map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>',
     user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
@@ -2141,20 +2238,22 @@ window.YETAKLA_FIREBASE = {
   }
 
   /* ---------- state ---------- */
-  const fresh = () => ({ v: 1, xp: 0, todayXp: 0, today: dayStr(), goal: null, streak: 0, bestStreak: 0, lastDay: null, hearts: 5, done: {}, lessonsDone: 0, pool: {}, badges: {}, sound: true, formulasOk: 0, reviewsOk: 0, onboarded: false });
+  const fresh = () => ({ v: 1, xp: 0, todayXp: 0, today: dayStr(), goal: null, streak: 0, bestStreak: 0, lastDay: null, hearts: 5, done: {}, lessonsDone: 0, pool: {}, badges: {}, sound: true, formulasOk: 0, reviewsOk: 0, onboarded: false, week: "", weekXp: 0 });
   let S;
   function load() { try { const raw = localStorage.getItem(KEY); S = raw ? Object.assign(fresh(), JSON.parse(raw)) : fresh(); } catch (e) { S = fresh(); } rollDay(); }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* xotira yo'q — sessiyada saqlanadi */ } if (window.DY_CLOUD) try { window.DY_CLOUD.onSave(S); } catch (e) { /* bulut ixtiyoriy */ } }
   function rollDay() {
     const t = dayStr();
     if (S.today !== t) { S.today = t; S.todayXp = 0; S.hearts = 5; }
+    if (S.week !== weekKey()) { S.week = weekKey(); S.weekXp = 0; }
     if (S.lastDay && S.lastDay !== t && S.lastDay !== yesterday()) S.streak = 0;
   }
   function addXp(n) {
     if (n <= 0) return;
     const t = dayStr();
     if (S.lastDay !== t) { S.streak = S.lastDay === yesterday() ? S.streak + 1 : 1; S.lastDay = t; S.bestStreak = Math.max(S.bestStreak, S.streak); }
-    const before = S.todayXp; S.xp += n; S.todayXp += n;
+    if (S.week !== weekKey()) { S.week = weekKey(); S.weekXp = 0; }
+    const before = S.todayXp; S.xp += n; S.todayXp += n; S.weekXp = (S.weekXp || 0) + n;
     if (S.goal && before < S.goal && S.todayXp >= S.goal) award("goal");
   }
 
@@ -2417,7 +2516,7 @@ window.YETAKLA_FIREBASE = {
   }
 
   /* ---------- UI shell ---------- */
-  let tab = "map", openLesson = null, session = null, modal = null;
+  let tab = "home", openLesson = null, session = null, modal = null;
   function ring() {
     const g = S.goal || 20, p = Math.min(1, S.todayXp / g), C = 2 * Math.PI * 14;
     return `<div class="ring" title="Kunlik maqsad: ${S.todayXp}/${g} XP"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="14" fill="none" stroke="var(--surface-2)" stroke-width="5"/><circle cx="17" cy="17" r="14" fill="none" stroke="var(--sun)" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(p * C).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${p >= 1 ? "✓" : Math.round(p * 100) + "%"}</b></div>`;
@@ -2433,12 +2532,12 @@ window.YETAKLA_FIREBASE = {
   }
   function tabbar() {
     const t = (id, ic, label) => `<button class="tab ${tab === id ? "on" : ""}" data-tab="${id}">${I[ic]}<span>${label}</span></button>`;
-    return `<nav class="tabbar"><div class="in">${t("map", "map", "Yo'l")}${t("badges", "trophy", "Yutuqlar")}${t("profile", "user", "Profil")}</div></nav>`;
+    return `<nav class="tabbar"><div class="in">${t("home", "home", "Asosiy")}${t("map", "map", "Yo'l")}${t("rank", "trophy", "Reyting")}${t("profile", "user", "Profil")}</div></nav>`;
   }
   const OFFS = [0, 52, 84, 52, 0, -52, -84, -52];
   function mapHTML() {
     const poolN = Object.keys(S.pool).length;
-    let h = `<div class="map wrap">`;
+    let h = `<div class="map wrap"><div class="maphead"><button class="back" data-tab="home" aria-label="Asosiyga qaytish">${I.back}<span>Asosiy</span></button><b>Data analitika</b></div>`;
     h += `<div class="practice-cta">${I.repeat.replace("<svg", '<svg style="width:30px;height:30px;color:var(--sky);flex:none"')}<p><b>Takrorlash mashqi</b>${poolN ? `${poolN} ta xato savol sizni kutyapti. Har to'g'ri javob +1 ❤️` : "Har to'g'ri javob +1 ❤️ qaytaradi"}</p><button class="btn sky sm" data-act="practice">Boshlash</button></div>`;
     COURSE.forEach((sec, si) => {
       const locked = sec.soon; const nDone = sec.lessons.filter(l => isDone(l.id)).length;
@@ -2466,11 +2565,11 @@ window.YETAKLA_FIREBASE = {
   function badgesHTML() {
     const ti = TIERS.reduce((a, t, i) => S.xp >= t[1] ? i : a, 0); const cur = TIERS[ti], nxt = TIERS[ti + 1];
     const pct = nxt ? Math.round((S.xp - cur[1]) / (nxt[1] - cur[1]) * 100) : 100;
-    return `<div class="page wrap"><h2>Yutuqlar</h2>
+    return `<h3>Yutuqlar</h3>
       <div class="card league"><svg class="medal" viewBox="0 0 58 58"><path d="M17 2h10l4 14H21zM31 2h10l-4 14h-10z" fill="var(--sky)"/><circle cx="29" cy="36" r="19" fill="${cur[2]}"/><circle cx="29" cy="36" r="13" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3"/>${I.star.replace('<svg viewBox="0 0 24 24"', '<svg x="19" y="26" width="20" height="20" viewBox="0 0 24 24"').replace('fill="currentColor"', 'fill="#fff"')}</svg>
         <div class="info"><b>${cur[0]} liga</b><span>${nxt ? `${nxt[0]} ligasiga ${nxt[1] - S.xp} XP qoldi` : "Eng yuqori liga!"}</span><div class="bar"><i style="width:${pct}%"></i></div><div class="tiers">${TIERS.map((t, i) => `<span class="${i === ti ? "on" : ""}">${t[0]}</span>`).join("")}</div></div></div>
       <h3>Nishonlar · ${Object.keys(S.badges).length}/${BADGES.length}</h3>
-      <div class="badges">${BADGES.map(b => `<div class="badge ${S.badges[b.id] ? "" : "off"}" style="--c:${b.c}"><span class="ic">${S.badges[b.id] ? I[b.ic] : I.lock}</span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></div>`).join("")}</div></div>`;
+      <div class="badges">${BADGES.map(b => `<div class="badge ${S.badges[b.id] ? "" : "off"}" style="--c:${b.c}"><span class="ic">${S.badges[b.id] ? I[b.ic] : I.lock}</span><b>${esc(b.name)}</b><small>${esc(b.desc)}</small></div>`).join("")}</div>`;
   }
   function profileHTML() {
     const g = (v, n, d) => `<button class="opt ${S.goal === v ? "sel" : ""}" data-goal="${v}"><span>${n}</span><small>${v} XP / kun · ${d}</small></button>`;
@@ -2479,15 +2578,58 @@ window.YETAKLA_FIREBASE = {
       ${window.DY_CLOUD ? window.DY_CLOUD.card() : ""}
       <h3>Kunlik maqsad</h3><div class="goals" style="max-width:none">${g(20, "Yengil", "≈ 2 dars")}${g(50, "Jiddiy", "≈ 4 dars")}${g(100, "Kuchli", "≈ 8 dars")}</div>
       <div class="card toggle"><span>Ovoz effektlari</span><button class="switch ${S.sound ? "on" : ""}" data-act="sound" aria-label="Ovoz"></button></div>
+      ${badgesHTML()}
       <div class="card"><h3>Kurs haqida</h3><p class="muted" style="margin-top:6px">11 bo'lim: analitik fikrlash → Excel → statistika → SQL → tozalash → Power BI → Tableau va Superset → Python → AI → karyera. Hozir ochiq bo'limlar: ${COURSE.filter(s => !s.soon).length} ta. Barcha misollar to'qima ma'lumotlar.</p></div>
       <div class="card"><p class="muted">${window.DY_CLOUD && window.DY_CLOUD.user() ? "Progress hisobingizda va shu brauzerda saqlanadi." : "Progress shu brauzerda saqlanadi."} Har kuni jonlar 5 taga to'ladi.</p><div class="row" style="margin-top:10px">${modal === "reset" ? `<button class="btn red sm" data-act="reset-yes">Ha, hammasini o'chir</button><button class="btn ghost sm" data-act="reset-no">Bekor</button>` : `<button class="btn ghost sm" data-act="reset">Progressni tozalash</button>`}</div></div>
     </div>`;
   }
+  function nextLesson() { const i = LESSONS.findIndex((x, k) => lessonState(k) === "current"); return i < 0 ? null : LESSONS[i]; }
+  function homeHTML() {
+    const real = LESSONS.filter(x => x.l.steps.length), total = real.length, done = real.filter(x => isDone(x.l.id)).length;
+    const nx = nextLesson(), C = window.DY_CLOUD, u = C && C.user();
+    const first = u && u.displayName ? u.displayName.trim().split(/\s+/)[0] : "";
+    const g = S.goal || 20, met = S.todayXp >= g, hr = new Date().getHours(), pct = total ? Math.round(100 * done / total) : 0;
+    const hello = (hr < 5 ? "Xayrli tun" : hr < 11 ? "Xayrli tong" : hr < 18 ? "Xayrli kun" : "Xayrli kech") + (first ? ", " + first : "") + "!";
+    const say = met ? "Bugungi maqsad bajarildi. Barakalla!" : S.todayXp ? `Maqsadga ${g - S.todayXp} XP qoldi.` : S.streak ? "Olovni o'chirmang: bugun bitta dars yetarli." : "Bugun bitta dars bilan boshlaymiz.";
+    return `<div class="page wrap home">
+      <div class="hello">${mascot(met ? "happy" : "ok")}<div class="say"><b>${esc(hello)}</b><span>${say}</span></div></div>
+      ${nx ? `<button class="cont" style="--c:${nx.sec.color}" data-start="${nx.l.id}"><span class="eyebrow">${nx.si}-bo'lim · ${esc(nx.sec.title)}</span><b>${esc(nx.l.title)}</b><span class="go">${done ? "Davom etish" : "Boshlash"}</span></button>`
+        : `<div class="card cont-done"><b>Kurs tugatildi! 🎉</b><span class="muted">Takrorlash mashqlari bilan bilimni mustahkamlang.</span></div>`}
+      <div class="today">
+        <div class="card"><b>${S.todayXp}<small>/${g}</small></b><span>Bugungi XP</span><i class="bar"><i style="width:${Math.min(100, 100 * S.todayXp / g)}%"></i></i></div>
+        <div class="card"><b>${S.streak} 🔥</b><span>Olov</span></div>
+        <button class="card" data-tab="rank"><b>${S.weekXp || 0}</b><span>Haftalik XP ›</span></button>
+      </div>
+      <h3>Yo'nalishlar</h3>
+      <button class="card course" data-tab="map"><span class="ic">${I.chart}</span><span class="txt"><b>Data analitika</b><small>${done}/${total} dars · ${pct}%</small><i class="bar"><i style="width:${pct}%"></i></i></span><span class="chev">›</span></button>
+      <div class="card course soon"><span class="ic">${I.lock}</span><span class="txt"><b>Yangi yo'nalishlar</b><small>Tez kunda</small></span></div>
+    </div>`;
+  }
+  function rankRows(d) {
+    if (!d) return `<div class="card muted">Yuklanmoqda…</div>`;
+    if (d.error) return `<div class="card muted">Reytingni yuklab bo'lmadi. Internetni tekshirib, qayta oching.</div>`;
+    if (!d.rows.length) return `<div class="card muted">Bu hafta hali hech kim XP yig'magan. Birinchi bo'ling!</div>`;
+    let h = `<ol class="rank">${d.rows.map((r, i) => `<li class="${r.id === d.uid ? "me" : ""}"><span class="pos p${i + 1}">${i + 1}</span><span class="av">${esc((r.name || "?").trim()[0] || "?").toUpperCase()}</span><b>${esc(r.name || "Nomsiz")}</b><span class="x">${r.wxp} XP</span></li>`).join("")}</ol>`;
+    if (!d.rows.some(r => r.id === d.uid)) h += `<div class="card me-row">${d.me ? `Sizning o'rningiz: <b>${d.me.rank}</b> · ${d.me.wxp} XP` : "Bu hafta dars o'tib, reytingga kiring."}</div>`;
+    return h;
+  }
+  function rankHTML() {
+    const C = window.DY_CLOUD, left = 7 - ((new Date().getDay() + 6) % 7);
+    let body;
+    if (!C) body = `<div class="card muted">Reyting saytda ishlaydi. Bu yerda progress faqat shu qurilmada.</div>`;
+    else if (!C.user()) body = `<div class="card rank-in">${mascot("think")}<b>Reytingga qo'shiling</b><p class="muted">Google bilan kiring: haftalik XP'ingiz boshqalar bilan solishtiriladi, progressingiz ham saqlanib qoladi.</p><button class="btn gbtn" data-act="cloud-login"><span>Google bilan kirish</span></button><small id="cloudst" class="muted"></small></div>`;
+    else body = `<div id="rankbox">${rankRows(C.boardCache())}</div>`;
+    return `<div class="page wrap"><div class="rank-head"><h2>Haftalik reyting</h2><span class="muted">${left === 7 ? "Yangi hafta bugun boshlandi" : `Hafta tugashiga ${left} kun`} · Siz: ${S.weekXp || 0} XP</span></div>${body}</div>`;
+  }
   function renderHome() {
     document.body.classList.remove("in-lesson");
-    $app.innerHTML = `<div class="app">${topbar()}${tab === "map" ? mapHTML() : tab === "badges" ? badgesHTML() : profileHTML()}</div>${tabbar()}`;
+    $app.innerHTML = `<div class="app">${topbar()}${tab === "home" ? homeHTML() : tab === "map" ? mapHTML() : tab === "rank" ? rankHTML() : profileHTML()}</div>${tabbar()}`;
     flushToasts();
+    const C = window.DY_CLOUD;
+    if (tab === "rank" && C && C.user()) C.board().then(d => { const el = document.getElementById("rankbox"); if (el && tab === "rank" && d) el.innerHTML = rankRows(d); });
   }
+  const hpush = st => { try { history.pushState(st, ""); } catch (e) { /* iframe */ } };
+  function leaveLesson() { session = null; if (history.state && history.state.lesson) history.back(); else renderHome(); }
   function renderOnboard(step) {
     const sel = S.goal;
     $app.innerHTML = `<div class="layer"><div class="center">${mascot("happy", "float")}
@@ -2804,9 +2946,9 @@ window.YETAKLA_FIREBASE = {
   document.addEventListener("click", e => {
     const t = e.target.closest("[data-act],[data-tab],[data-lesson],[data-start],[data-goal],[data-ogoal]");
     if (!t) return;
-    if (t.dataset.tab) { tab = t.dataset.tab; openLesson = null; modal = null; renderHome(); window.scrollTo(0, 0); return; }
+    if (t.dataset.tab) { if (tab !== t.dataset.tab) hpush({ tab: t.dataset.tab }); tab = t.dataset.tab; openLesson = null; modal = null; renderHome(); window.scrollTo(0, 0); return; }
     if (t.dataset.lesson) { openLesson = openLesson === t.dataset.lesson ? null : t.dataset.lesson; renderHome(); return; }
-    if (t.dataset.start) { openLesson = null; startLesson(t.dataset.start); return; }
+    if (t.dataset.start) { openLesson = null; if (S.hearts > 0) hpush({ tab, lesson: 1 }); startLesson(t.dataset.start); return; }
     if (t.dataset.goal) { S.goal = +t.dataset.goal; save(); renderHome(); return; }
     if (t.dataset.ogoal) { S.goal = +t.dataset.ogoal; renderOnboard(2); return; }
     const a = t.dataset.act;
@@ -2816,13 +2958,13 @@ window.YETAKLA_FIREBASE = {
     if (a === "next") return next();
     if (a === "fix") { phase = "answer"; document.getElementById("lfoot").innerHTML = footAnswer(); refreshCheck(); return; }
     if (a === "simple") return showSimple();
-    if (a === "quit") { session = null; renderHome(); return; }
-    if (a === "home") { renderHome(); window.scrollTo(0, 0); return; }
-    if (a === "practice") return startPractice();
+    if (a === "quit") return leaveLesson();
+    if (a === "home") { leaveLesson(); window.scrollTo(0, 0); return; }
+    if (a === "practice") { if (!(history.state && history.state.lesson)) hpush({ tab, lesson: 1 }); return startPractice(); }
     if (a === "sound") { S.sound = !S.sound; save(); renderHome(); sfx("toggle"); return; }
     if (a === "reset") { modal = "reset"; renderHome(); return; }
     if (a === "reset-no") { modal = null; renderHome(); return; }
-    if (a === "reset-yes") { modal = null; S = fresh(); save(); tab = "map"; renderOnboard(1); return; }
+    if (a === "reset-yes") { modal = null; S = fresh(); save(); tab = "home"; renderOnboard(1); return; }
   });
   document.addEventListener("keydown", e => {
     if (!session || document.querySelector(".sheet-modal")) return;
@@ -2835,7 +2977,13 @@ window.YETAKLA_FIREBASE = {
     } else if (/^[1-4]$/.test(e.key) && tag !== "textarea" && tag !== "input" && phase === "answer" && ctl && ctl.key) ctl.key(+e.key);
   });
 
+  addEventListener("popstate", e => {
+    const st = e.state || {};
+    if (st.lesson && !session) { history.back(); return; }
+    session = null; tab = st.tab || "home"; openLesson = null; modal = null; renderHome(); window.scrollTo(0, 0);
+  });
   load();
+  try { history.replaceState({ tab: "home" }, ""); } catch (e) { /* iframe */ }
   if (!S.onboarded) renderOnboard(1); else renderHome();
   window.DY_APP = { state: () => S, startLesson, cur: () => session && session.q[session.i], version: "1.1",
     replaceState(ns) { S = Object.assign(fresh(), ns); rollDay(); save(); if (!session) renderHome(); },

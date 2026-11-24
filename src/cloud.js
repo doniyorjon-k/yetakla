@@ -4,7 +4,7 @@
   const FIREBASE_CONFIG = g.YETAKLA_FIREBASE || null;
   if (!FIREBASE_CONFIG) return;
   const V = "10.12.2", CDN = "https://www.gstatic.com/firebasejs/" + V + "/";
-  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null, isNew = false;
+  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null, isNew = false, bTimer = null, bLast = 0, bSent = "", bcache = null;
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const refresh = () => { if (g.DY_APP && g.DY_APP.refresh) g.DY_APP.refresh(); };
@@ -24,6 +24,8 @@
     if (a.today === b.today) r.todayXp = Math.max(a.todayXp || 0, b.todayXp || 0);
     if (!a.goal && b.goal) r.goal = b.goal;
     r.onboarded = !!(a.onboarded || b.onboarded);
+    const wa = a.week || "", wb = b.week || "";
+    if (wb > wa) { r.week = wb; r.weekXp = b.weekXp || 0; } else if (wa === wb) r.weekXp = Math.max(a.weekXp || 0, b.weekXp || 0);
     return r;
   }
 
@@ -36,6 +38,22 @@
     return fb;
   }
 
+  // Reyting uchun qisqa ism: "Doniyorjon Kuchkarov" -> "Doniyorjon K."
+  const shortName = n => { const p = String(n || "").trim().split(/\s+/).filter(Boolean); return !p.length ? "Nomsiz" : (p[0].slice(0, 24) + (p[1] ? " " + p[1][0].toUpperCase() + "." : "")); };
+  // Haftalik reyting yozuvi: XP o'zgarganda, ko'pi bilan daqiqada bir marta
+  async function pushBoard(force) {
+    clearTimeout(bTimer); bTimer = null;
+    const st = g.DY_APP && g.DY_APP.state(); if (!user || !fb || !st || !st.week || !(st.weekXp > 0)) return;
+    const key = st.week + ":" + st.weekXp; if (key === bSent) return;
+    const wait = 60000 - (Date.now() - bLast);
+    if (!force && wait > 0) { bTimer = setTimeout(() => pushBoard(true), wait); return; }
+    bLast = Date.now();
+    try {
+      await fb.fs.setDoc(fb.fs.doc(db, "boards", st.week, "users", user.uid), { name: shortName(user.displayName), wxp: Math.round(st.weekXp), at: fb.fs.serverTimestamp() });
+      bSent = key; bcache = null;
+    } catch (e) { bTimer = setTimeout(() => pushBoard(true), 30000); }
+  }
+
   async function push() {
     if (!user || !fb) return;
     const st = pending || (g.DY_APP && g.DY_APP.state()); pending = null; if (!st) return;
@@ -44,7 +62,7 @@
       const data = { s: JSON.stringify(st), xp: st.xp || 0, lessons: st.lessonsDone || 0, name: String(user.displayName || "").slice(0, 60), days: fb.fs.arrayUnion(st.today || ""), at: fb.fs.serverTimestamp() };
       if (isNew) data.created = fb.fs.serverTimestamp();
       await fb.fs.setDoc(fb.fs.doc(db, "users", user.uid), data, { merge: true });
-      isNew = false; setStatus("ok");
+      isNew = false; setStatus("ok"); pushBoard();
     } catch (e) { setStatus("error"); timer = setTimeout(push, 15000); }
   }
 
@@ -65,6 +83,25 @@
 
   g.DY_CLOUD = {
     user: () => user,
+    boardCache: () => bcache && user && bcache.uid === user.uid && Date.now() - bcache.t < 60000 ? bcache : null,
+    async board() {
+      if (!user || !fb) return null;
+      const st = g.DY_APP.state(), wk = st.week;
+      const c = this.boardCache(); if (c && c.week === wk) return c;
+      try {
+        if (bTimer || (st.weekXp > 0 && bSent !== wk + ":" + st.weekXp)) await pushBoard(true);
+        const col = fb.fs.collection(db, "boards", wk, "users");
+        const snap = await fb.fs.getDocs(fb.fs.query(col, fb.fs.orderBy("wxp", "desc"), fb.fs.limit(50)));
+        const rows = []; snap.forEach(d => rows.push(Object.assign({ id: d.id }, d.data())));
+        let me = null;
+        if (!rows.some(r => r.id === user.uid) && st.weekXp > 0) {
+          const cnt = await fb.fs.getCountFromServer(fb.fs.query(col, fb.fs.where("wxp", ">", Math.round(st.weekXp))));
+          me = { rank: cnt.data().count + 1, wxp: st.weekXp };
+        }
+        bcache = { t: Date.now(), week: wk, rows, me, uid: user.uid };
+        return bcache;
+      } catch (e) { return { error: true }; }
+    },
     onSave(st) {
       if (!user || !ready) return;
       pending = st; clearTimeout(timer); timer = setTimeout(push, 2500);
@@ -102,6 +139,6 @@
         }
       } catch (err) { setStatus("idle"); const el = document.getElementById("cloudst"); if (el) el.textContent = "Kirib bo'lmadi. Internetni tekshirib, qayta urinib ko'ring."; }
     }
-    if (b.dataset.act === "cloud-logout") { clearTimeout(timer); if (pending) await push(); try { await fb.au.signOut(auth); } catch (err) { /* */ } }
+    if (b.dataset.act === "cloud-logout") { clearTimeout(timer); if (pending) await push(); if (bTimer) await pushBoard(true); bcache = null; bSent = ""; try { await fb.au.signOut(auth); } catch (err) { /* */ } }
   });
 })(typeof window !== "undefined" ? window : globalThis);
