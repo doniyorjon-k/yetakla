@@ -406,3 +406,9 @@ i.bar > i { display: block; height: 100%; border-radius: 4px; background: var(--
 .rank-in svg.mascot { width: 90px; height: 100px; }
 .rank-in b { font-family: var(--f-display); font-size: 20px; }
 .rank-in p { margin: 0; }
+/* hisob taklifi */
+.perks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.perks li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; line-height: 1.35; }
+.perks li svg { width: 22px; height: 22px; flex: none; color: #fff; background: var(--green); border-radius: 50%; padding: 4px; margin-top: 1px; }
+.perks li b { font-weight: 800; }
+.signup .btn { width: 100%; }

@@ -27,6 +27,7 @@
 
   /* ---------- icons ---------- */
   const I = {
+    google: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.3c0-.8-.1-1.5-.2-2.3H12v4.3h5.9c-.3 1.4-1 2.5-2.2 3.3v2.7h3.6c2-1.9 3.2-4.7 3.2-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.6H2.1v2.8C3.9 20.6 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.8 14.1c-.2-.7-.4-1.4-.4-2.1s.1-1.4.4-2.1V7.1H2.1C1.4 8.6 1 10.2 1 12s.4 3.4 1.1 4.9l3.7-2.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7.1l3.7 2.8c.9-2.6 3.3-4.5 6.2-4.5z"/></svg>',
     home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.2 12 3.8l9 7.4"/><path d="M5.5 9.6V20h13V9.6"/><path d="M10 20v-5.4h4V20"/></svg>',
     back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
     map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg>',
@@ -490,6 +491,21 @@
     if (tab === "rank" && C && C.user()) C.board().then(d => { const el = document.getElementById("rankbox"); if (el && tab === "rank" && d) el.innerHTML = rankRows(d); });
   }
   const hpush = st => { try { history.pushState(st, ""); } catch (e) { /* iframe */ } };
+  let pendingStart = null;
+  function beginLesson(id) { if (S.hearts > 0) hpush({ tab, lesson: 1 }); startLesson(id); }
+  const closeSheet = () => document.querySelectorAll(".sheet-modal.signup").forEach(m => m.remove());
+  // Kirmagan foydalanuvchiga dars oldidan hisob taklifi (kuniga bir marta)
+  function askSignup(id) {
+    pendingStart = id; closeSheet();
+    const m = document.createElement("div"); m.className = "sheet-modal signup";
+    const perk = (b, t) => `<li>${I.check}<span><b>${b}</b> ${t}</span></li>`;
+    m.innerHTML = `<div class="card" role="dialog" aria-label="Hisobga kirish taklifi"><div class="say">${mascot("happy")}<div class="sb">Darsdan oldin bir taklif: progressingizni saqlab qo'yaylik!</div></div>
+      <ul class="perks">${perk("Progress yo'qolmaydi.", "Brauzer tozalansa yoki telefon almashsa ham hammasi joyida qoladi.")}${perk("Telefon va kompyuterda bir xil.", "Qayerda to'xtasangiz, boshqa qurilmada o'sha yerdan davom etasiz.")}${perk("Haftalik reytingda qatnashasiz.", "XP'ingiz boshqalar bilan solishtiriladi.")}${perk("Bepul va bir bosishda.", "Parol o'ylab topish shart emas, Google hisobingiz yetarli.")}</ul>
+      <button class="btn gbtn" data-act="cloud-login">${I.google}<span>Google bilan kirish</span></button><small id="cloudst" class="muted" style="text-align:center;margin-top:-6px"></small>
+      <button class="btn ghost" data-act="signup-later">Keyinroq, darsni boshlash</button></div>`;
+    m.addEventListener("click", e => { if (e.target === m) { m.remove(); pendingStart = null; } });
+    document.body.appendChild(m);
+  }
   function leaveLesson() { session = null; if (history.state && history.state.lesson) history.back(); else renderHome(); }
   function renderOnboard(step) {
     const sel = S.goal;
@@ -809,7 +825,11 @@
     if (!t) return;
     if (t.dataset.tab) { if (tab !== t.dataset.tab) hpush({ tab: t.dataset.tab }); tab = t.dataset.tab; openLesson = null; modal = null; renderHome(); window.scrollTo(0, 0); return; }
     if (t.dataset.lesson) { openLesson = openLesson === t.dataset.lesson ? null : t.dataset.lesson; renderHome(); return; }
-    if (t.dataset.start) { openLesson = null; if (S.hearts > 0) hpush({ tab, lesson: 1 }); startLesson(t.dataset.start); return; }
+    if (t.dataset.start) {
+      openLesson = null; const C = window.DY_CLOUD;
+      if (C && !C.user() && S.askDay !== dayStr()) { askSignup(t.dataset.start); return; }
+      beginLesson(t.dataset.start); return;
+    }
     if (t.dataset.goal) { S.goal = +t.dataset.goal; save(); renderHome(); return; }
     if (t.dataset.ogoal) { S.goal = +t.dataset.ogoal; renderOnboard(2); return; }
     const a = t.dataset.act;
@@ -819,6 +839,7 @@
     if (a === "next") return next();
     if (a === "fix") { phase = "answer"; document.getElementById("lfoot").innerHTML = footAnswer(); refreshCheck(); return; }
     if (a === "simple") return showSimple();
+    if (a === "signup-later") { S.askDay = dayStr(); save(); const id = pendingStart; pendingStart = null; closeSheet(); if (id) beginLesson(id); return; }
     if (a === "quit") return leaveLesson();
     if (a === "home") { leaveLesson(); window.scrollTo(0, 0); return; }
     if (a === "practice") { if (!(history.state && history.state.lesson)) hpush({ tab, lesson: 1 }); return startPractice(); }
@@ -848,6 +869,9 @@
   if (!S.onboarded) renderOnboard(1); else renderHome();
   window.DY_APP = { state: () => S, startLesson, cur: () => session && session.q[session.i], version: "1.1",
     replaceState(ns) { S = Object.assign(fresh(), ns); rollDay(); save(); if (!session) renderHome(); },
-    refresh() { if (!session && S.onboarded) renderHome(); } };
+    refresh() {
+      if (pendingStart && window.DY_CLOUD && window.DY_CLOUD.user()) { const id = pendingStart; pendingStart = null; closeSheet(); beginLesson(id); return; }
+      if (!session && S.onboarded) renderHome();
+    } };
   if (window.DY_CLOUD) window.DY_CLOUD.start();
 })();
