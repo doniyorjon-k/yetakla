@@ -102,7 +102,19 @@
   /* ---------- state ---------- */
   const fresh = () => ({ v: 1, xp: 0, todayXp: 0, today: dayStr(), goal: null, streak: 0, bestStreak: 0, lastDay: null, hearts: 5, done: {}, lessonsDone: 0, pool: {}, badges: {}, sound: true, formulasOk: 0, reviewsOk: 0, onboarded: false, week: "", weekXp: 0 });
   let S;
-  function load() { try { const raw = localStorage.getItem(KEY); S = raw ? Object.assign(fresh(), JSON.parse(raw)) : fresh(); } catch (e) { S = fresh(); } rollDay(); }
+  function load() {
+    try { const raw = localStorage.getItem(KEY); S = raw ? Object.assign(fresh(), JSON.parse(raw)) : fresh(); } catch (e) { S = fresh(); }
+    // Eski manzildan (doniyorjon-k.github.io/yetakla) ko'chib kelgan progress: #import=...
+    const m = /[#&]import=([^&]+)/.exec(location.hash || "");
+    if (m) {
+      try {
+        const imp = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+        if (imp && typeof imp === "object" && (imp.xp || 0) > (S.xp || 0)) { S = Object.assign(fresh(), imp); localStorage.setItem(KEY, JSON.stringify(S)); }
+      } catch (e) { /* buzilgan havola — e'tiborsiz */ }
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* */ }
+    }
+    rollDay();
+  }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* xotira yo'q — sessiyada saqlanadi */ } if (window.DY_CLOUD) try { window.DY_CLOUD.onSave(S); } catch (e) { /* bulut ixtiyoriy */ } }
   function rollDay() {
     const t = dayStr();

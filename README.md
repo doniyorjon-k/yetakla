@@ -1,8 +1,10 @@
 # Yetakla
 
+> **Sayt ko'chdi:** https://yetakla.github.io/ — bu repository endi faqat eski manzildan yo'naltiradi. Asosiy kod: https://github.com/yetakla/yetakla.github.io
+
 Data analitikani o'zbek tilida, o'yin shaklida o'rganish uchun ilova.
 
-**Sayt:** https://doniyorjon-k.github.io/yetakla/
+**Sayt:** https://yetakla.github.io/
 
 ## Kurs
 
