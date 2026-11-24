@@ -351,6 +351,9 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
 .code .cm, pre .cm { color: #8fb3a0; font-style: italic; }
 @media (max-width: 420px) { .code { font-size: 13.5px; padding: 12px 13px; } }
 
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); } }
+:root[data-theme="dark"] svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); }
+
 </style>
 </head>
 <body>
@@ -1960,23 +1963,41 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
     join: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="9" cy="12" r="6"/><circle cx="15" cy="12" r="6"/></svg>'
   };
 
-  /* ---------- Raqamjon (maskot) ---------- */
+  /* ---------- Hudhud (maskot): popishak — yo'lni yetaklovchi dono qush ---------- */
   function mascot(mood = "ok", cls = "") {
+    const BODY = "#E8893C", BODY_D = "#C96A22", BELLY = "#FBD3A2", INK = "#2A211C", TIP = "#1F1A17";
+    // toj patlari: har bir kayfiyatda boshqacha yoyiladi
+    const angles = { ok: [-42, -21, 0, 21, 42], happy: [-60, -30, 0, 30, 60], sad: [22, 38, 54, 70, 86], think: [-30, -12, 6, 24, 42] }[mood] || [-42, -21, 0, 21, 42];
+    const len = mood === "sad" ? 0.82 : mood === "happy" ? 1.08 : 1;
+    const feather = a => `<g transform="translate(50 52) rotate(${a}) scale(${len})"><path d="M0 0C-5.6-12-5.6-30 0-42C5.6-30 5.6-12 0 0Z" fill="${BODY}"/><g transform="translate(0 -8)"><path d="M-4.2-22C-3.5-27-2-31 0-34C2-31 3.5-27 4.2-22C1.4-23.5-1.4-23.5-4.2-22Z" fill="${TIP}"/><path d="M-4.8-18.5C-1.6-20-1.6-20 0-20.2C1.6-20 1.6-20 4.8-18.5L4.2-22C1.4-23.5-1.4-23.5-4.2-22Z" fill="#fff"/></g></g>`;
+    const crest = angles.map(feather).join("");
+    // qanot: qora-oq chiziqli (popishakning belgisi)
+    const wing = (side, rot) => {
+      const s = side === "l" ? 1 : -1, cx = side === "l" ? 26 : 74;
+      return `<g transform="translate(${cx} 70) rotate(${rot * s}) scale(${s} 1)"><path d="M2-6C-12 2-15 18-8 30C0 26 6 12 6-2Z" fill="${TIP}"/><path d="M-4.4 3.5 4.7 1.2M-7.6 10.5 3.8 7.3M-9.2 17.6 1.8 13.8M-8.8 24.2-1.4 20.6" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>`;
+    };
+    const wr = { ok: [6, 6], happy: [62, 62], sad: [-8, -8], think: [6, 48] }[mood] || [8, 8];
+    const eye = (x, y) => `<circle cx="${x}" cy="${y}" r="7.4" fill="#fff"/>`;
     const eyes = {
-      ok: '<circle cx="40" cy="36" r="4.6" fill="var(--mascot-eye)"/><circle cx="60" cy="36" r="4.6" fill="var(--mascot-eye)"/>',
-      happy: '<path d="M35 38q5-7 10 0M55 38q5-7 10 0" stroke="var(--mascot-eye)" stroke-width="3.6" fill="none" stroke-linecap="round"/>',
-      sad: '<circle cx="40" cy="38" r="4" fill="var(--mascot-eye)"/><circle cx="60" cy="38" r="4" fill="var(--mascot-eye)"/><path d="M34 31l9 2M66 31l-9 2" stroke="var(--mascot-eye)" stroke-width="2.6" stroke-linecap="round"/>',
-      think: '<circle cx="40" cy="36" r="4.6" fill="var(--mascot-eye)"/><path d="M55 36h10" stroke="var(--mascot-eye)" stroke-width="3.6" stroke-linecap="round"/>'
+      ok: eye(40, 58) + eye(60, 58) + `<circle cx="41" cy="59" r="3.9" fill="${INK}"/><circle cx="59" cy="59" r="3.9" fill="${INK}"/><circle cx="42.4" cy="57.4" r="1.3" fill="#fff"/><circle cx="60.4" cy="57.4" r="1.3" fill="#fff"/>`,
+      happy: `<path d="M34 60q6-8 12 0M54 60q6-8 12 0" stroke="${INK}" stroke-width="3.4" fill="none" stroke-linecap="round"/><ellipse cx="31" cy="69" rx="5" ry="3" fill="#F26A7A" opacity=".55"/><ellipse cx="69" cy="69" rx="5" ry="3" fill="#F26A7A" opacity=".55"/>`,
+      sad: eye(40, 59) + eye(60, 59) + `<circle cx="40" cy="61.5" r="3.6" fill="${INK}"/><circle cx="60" cy="61.5" r="3.6" fill="${INK}"/><path d="M33 51.5l10 3M67 51.5l-10 3" stroke="${INK}" stroke-width="2.6" stroke-linecap="round"/>`,
+      think: eye(40, 58) + eye(60, 58) + `<circle cx="42.5" cy="55.6" r="3.7" fill="${INK}"/><circle cx="62.5" cy="55.6" r="3.7" fill="${INK}"/><path d="M53.5 49.5q6.5-3.5 13 0" stroke="${INK}" stroke-width="2.4" fill="none" stroke-linecap="round"/>`
     }[mood];
-    const mouth = { ok: '<path d="M45 46h10" stroke="var(--mascot-eye)" stroke-width="3" stroke-linecap="round"/>', happy: '<path d="M43 44q7 6 14 0" stroke="var(--mascot-eye)" stroke-width="3" fill="none" stroke-linecap="round"/>', sad: '<path d="M43 48q7-5 14 0" stroke="var(--mascot-eye)" stroke-width="3" fill="none" stroke-linecap="round"/>', think: '<path d="M46 46q4 2 8-1" stroke="var(--mascot-eye)" stroke-width="3" fill="none" stroke-linecap="round"/>' }[mood];
-    const arms = mood === "happy" ? '<path d="M24 76 12 62M76 84l12-14" stroke="var(--mascot-head)" stroke-width="5" stroke-linecap="round"/>' : '<path d="M24 80 14 88M76 86l10 6" stroke="var(--mascot-head)" stroke-width="5" stroke-linecap="round"/>';
-    return `<svg class="mascot ${cls}" viewBox="0 0 100 112" role="img" aria-label="Raqamjon">
-      <line x1="50" y1="8" x2="50" y2="18" stroke="var(--mascot-head)" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="7" r="5" fill="var(--sun)"/>
-      <rect x="18" y="17" width="64" height="42" rx="14" fill="var(--mascot-head)"/><rect x="25" y="24" width="50" height="28" rx="9" fill="var(--mascot-screen)"/>${eyes}${mouth}
-      ${arms}
-      <rect x="24" y="72" width="16" height="30" rx="4" fill="var(--sky)"/><rect x="42" y="62" width="16" height="40" rx="4" fill="var(--sun)"/><rect x="60" y="80" width="16" height="22" rx="4" fill="var(--heart)"/>
-      <rect x="16" y="101" width="68" height="6" rx="3" fill="var(--ink)" opacity=".85"/>
-      ${mood === "think" ? '<text x="84" y="22" font-family="Baloo 2, sans-serif" font-weight="800" font-size="20" fill="var(--sun)">?</text>' : ""}
+    // uzun, biroz egilgan tumshuq
+    const beak = mood === "happy"
+      ? `<path d="M45.5 65.5Q50 63 54.5 65.5Q53.5 76 49 84Q48.5 74 45.5 65.5Z" fill="${INK}"/><path d="M47 68Q50 71 53 68" stroke="${BELLY}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`
+      : `<path d="M45.5 65.5Q50 63 54.5 65.5Q53.5 76 48.5 85Q48 74 45.5 65.5Z" fill="${INK}"/>`;
+    return `<svg class="mascot ${cls}" viewBox="0 0 100 112" role="img" aria-label="Hudhud">
+      ${crest}
+      ${wing("l", wr[0])}${wing("r", wr[1])}
+      <ellipse cx="50" cy="72" rx="27" ry="30" fill="${BODY}"/>
+      <path d="M26 78Q28 99 50 102Q72 99 74 78Q70 88 50 90Q30 88 26 78Z" fill="${BODY_D}" opacity=".35"/>
+      <ellipse cx="50" cy="83" rx="15.5" ry="15" fill="${BELLY}"/>
+      <path d="M43 84q7 3 14 0M44.5 90q5.5 2.4 11 0" stroke="${BODY}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+      ${eyes}${beak}
+      <path d="M42 101v6M38.5 107h7M58 101v6M54.5 107h7" stroke="${BODY_D}" stroke-width="2.8" stroke-linecap="round"/>
+      ${mood === "think" ? '<text x="82" y="26" font-family="Baloo 2, sans-serif" font-weight="800" font-size="20" fill="var(--sun)">?</text>' : ""}
     </svg>`;
   }
 
@@ -2343,7 +2364,7 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
     $app.innerHTML = `<div class="layer"><div class="center">${mascot("happy", "float")}
       ${step === 2 ? `<h1 class="g">Kunlik maqsad</h1><p>Har kuni qancha o'qiysiz? Keyin Profil bo'limida o'zgartirish mumkin.</p>
         <div class="goals">${[[20, "Yengil", "≈ 10 daqiqa"], [50, "Jiddiy", "≈ 20 daqiqa"], [100, "Kuchli", "≈ 40 daqiqa"]].map(g => `<button class="opt ${sel === g[0] ? "sel" : ""}" data-ogoal="${g[0]}"><span>${g[1]}</span><small>${g[0]} XP · ${g[2]}</small></button>`).join("")}</div>`
-      : `<h1 class="g">Salom! Men Raqamjonman.</h1><p>Yetakla'da data analitikani noldan, o'zbek tilida o'rganamiz: Excel, SQL, Power BI, Python. Har kuni oz-ozdan.</p>`}
+      : `<h1 class="g">Salom! Men Hudhudman.</h1><p>Men seni yo'l bo'ylab yetaklayman. Yetakla'da data analitikani noldan, o'zbek tilida o'rganamiz: Excel, SQL, Power BI, Python. Har kuni oz-ozdan.</p>`}
       <div class="foot-center">${step === 2 ? `<button class="btn" data-act="onb-done" ${sel ? "" : "disabled"}>Boshlash</button>` : `<button class="btn" data-act="onb-next">Davom etish</button>`}</div>
     </div></div>`;
   }

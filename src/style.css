@@ -339,3 +339,6 @@ table.sheet td.tg.err { color: var(--heart); box-shadow: inset 0 0 0 2px var(--h
 
 .code .cm, pre .cm { color: #8fb3a0; font-style: italic; }
 @media (max-width: 420px) { .code { font-size: 13.5px; padding: 12px 13px; } }
+
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); } }
+:root[data-theme="dark"] svg.mascot { filter: drop-shadow(0 0 1.2px rgba(255,255,255,.45)); }
