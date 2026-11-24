@@ -1939,7 +1939,7 @@ window.YETAKLA_FIREBASE = {
   const FIREBASE_CONFIG = g.YETAKLA_FIREBASE || null;
   if (!FIREBASE_CONFIG) return;
   const V = "10.12.2", CDN = "https://www.gstatic.com/firebasejs/" + V + "/";
-  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null;
+  let fb = null, auth = null, db = null, user = null, status = "idle", timer = null, ready = false, pending = null, isNew = false;
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const refresh = () => { if (g.DY_APP && g.DY_APP.refresh) g.DY_APP.refresh(); };
@@ -1976,8 +1976,10 @@ window.YETAKLA_FIREBASE = {
     const st = pending || (g.DY_APP && g.DY_APP.state()); pending = null; if (!st) return;
     setStatus("syncing");
     try {
-      await fb.fs.setDoc(fb.fs.doc(db, "users", user.uid), { s: JSON.stringify(st), xp: st.xp || 0, at: fb.fs.serverTimestamp() });
-      setStatus("ok");
+      const data = { s: JSON.stringify(st), xp: st.xp || 0, lessons: st.lessonsDone || 0, name: String(user.displayName || "").slice(0, 60), days: fb.fs.arrayUnion(st.today || ""), at: fb.fs.serverTimestamp() };
+      if (isNew) data.created = fb.fs.serverTimestamp();
+      await fb.fs.setDoc(fb.fs.doc(db, "users", user.uid), data, { merge: true });
+      isNew = false; setStatus("ok");
     } catch (e) { setStatus("error"); timer = setTimeout(push, 15000); }
   }
 
@@ -1986,7 +1988,8 @@ window.YETAKLA_FIREBASE = {
     try {
       const snap = await fb.fs.getDoc(fb.fs.doc(db, "users", user.uid));
       const local = g.DY_APP.state();
-      if (snap.exists()) {
+      isNew = !snap.exists();
+      if (!isNew) {
         const remote = JSON.parse(snap.data().s || "{}");
         g.DY_APP.replaceState(merge(local, remote));
       }

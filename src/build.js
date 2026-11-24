@@ -19,3 +19,10 @@ const siteBody=`<div id="app"></div>\n${siteJs}`;
 fs.writeFileSync('datayol.html', head+'\n'+body+'\n');
 fs.writeFileSync('datayol-standalone.html', `<!doctype html>\n<html lang="uz">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n${head}\n</head>\n<body>\n${siteBody}\n</body>\n</html>\n`);
 console.log(fs.statSync('datayol.html').size);
+// Admin panel (faqat sayt uchun): kurs tuzilishi va Firebase konfiguratsiyasi bilan
+if(cfg&&fs.existsSync('admin.tpl.html')){
+  const vm=require('vm');const ctx={};ctx.window=ctx;ctx.globalThis=ctx;vm.createContext(ctx);
+  for(const f of ['data.js','formula.js',...secs,'content.js'])vm.runInContext(fs.readFileSync(f,'utf8'),ctx);
+  const outline=JSON.stringify(ctx.DY_COURSE.filter(s=>s.lessons.length&&!s.soon).map(s=>({id:s.id,t:s.title,l:s.lessons.map(l=>[l.id,l.title])})));
+  fs.writeFileSync('admin.html',fs.readFileSync('admin.tpl.html','utf8').replace('/*CFG*/',()=>cfg).replace('/*OUTLINE*/',()=>outline));
+}
